@@ -38,7 +38,7 @@ import javax.swing.table.TableColumnModel;
 public class AssignmentReminder implements WindowListener {
 
 	// 버전 정보
-	public static final String VERSION = "V1.1";
+	public static final String VERSION = "V1.2";
 
 	// 구분 상수
 	public static final String DIVISION = "ㅸㅩㅨㅭㅬㅫㅱ";
@@ -839,7 +839,7 @@ public class AssignmentReminder implements WindowListener {
 		// 스크롤 설정
 		scroll = new JScrollPane(jtAssignment);
 		if (cntAssignment >= 11) {
-			scroll.setBounds(1, 36, 329, 276);
+			scroll.setBounds(1, 36, 329, 270);
 		} else {
 			scroll.setBounds(1, 36, 329, cntAssignment * 23 + 23);
 		}
