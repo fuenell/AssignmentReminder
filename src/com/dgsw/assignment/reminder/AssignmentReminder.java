@@ -38,7 +38,7 @@ import javax.swing.table.TableColumnModel;
 public class AssignmentReminder implements WindowListener {
 
 	// 버전 정보
-	public static final String VERSION = "V1.2";
+	public static final String VERSION = "V1.3";
 
 	// 구분 상수
 	public static final String DIVISION = "ㅸㅩㅨㅭㅬㅫㅱ";
@@ -305,6 +305,7 @@ public class AssignmentReminder implements WindowListener {
 					isWastebasket = false;
 					Wastebasket.jfWastebasket.dispose();
 				}
+				isChanging = false;
 				isMain = false;
 				jfMain.dispose();
 			}
@@ -557,7 +558,30 @@ public class AssignmentReminder implements WindowListener {
 
 	// 과제 추가 함수
 	public static void addAssignment() {
-		jbAdd.setIcon(new ImageIcon(AssignmentReminder.class.getResource("/image/Add.png")));
+
+		try {
+			// 과목 또는 할일 둘다 비어있으면 등록X
+			if (jtSubject.getText().equals("") && jtContent.getText().equals("")) {
+				return;
+			}
+
+			// 날짜 0,8글자 아니면 등록X
+			if (!(jtDate.getText().length() == 8) && !(jtDate.getText().length() == 0)) {
+				return;
+			}
+
+			// jtDate가 8글자일때 숫자가 아니면 catch로 빠져나감
+			if (jtDate.getText().length() == 8) {
+				Integer.parseInt(jtDate.getText());
+			}
+		} finally {
+			if (isChanging) {
+				jbAdd.setIcon(new ImageIcon(AssignmentReminder.class.getResource("/image/Change.png")));
+			} else {
+				jbAdd.setIcon(new ImageIcon(AssignmentReminder.class.getResource("/image/Add.png")));
+			}
+		}
+
 		if (isChanging) {
 			try {
 				PrintWriter pw = new PrintWriter("C:/AssignmentReminder/AssignmentList.txt");
@@ -580,21 +604,6 @@ public class AssignmentReminder implements WindowListener {
 
 		try {
 
-			// 과목 또는 할일 둘다 비어있으면 등록X
-			if (jtSubject.getText().equals("") && jtContent.getText().equals("")) {
-				return;
-			}
-
-			// 날짜 0,8글자 아니면 등록X
-			if (!(jtDate.getText().length() == 8) && !(jtDate.getText().length() == 0)) {
-				return;
-			}
-
-			// jtDate가 8글자일때 숫자가 아니면 catch로 빠져나감
-			if (jtDate.getText().length() == 8) {
-				Integer.parseInt(jtDate.getText());
-			}
-
 			// 텍스트에 저장
 			PrintWriter pw = new PrintWriter(new FileWriter("C:/AssignmentReminder/AssignmentList.txt", true));
 			pw.println(jtDate.getText() + DIVISION + jtSubject.getText() + DIVISION + jtContent.getText() + DIVISION
@@ -608,6 +617,9 @@ public class AssignmentReminder implements WindowListener {
 
 		} catch (Exception e) {
 		}
+
+		jbAdd.setIcon(new ImageIcon(AssignmentReminder.class.getResource("/image/Add.png")));
+
 		// 과제 리스트 새로고침
 		jfMain.remove(scroll);
 		assignmentList();
@@ -772,9 +784,15 @@ public class AssignmentReminder implements WindowListener {
 					// 몇번 째 줄인지 저장
 					tmpChanging = jtAssignment.getSelectedRow();
 					// 텍스트 변경
-					jtDate.setText(backUpAssignment[tmpChanging][0]);
-					jtSubject.setText(backUpAssignment[tmpChanging][1]);
-					jtContent.setText(backUpAssignment[tmpChanging][2]);
+					try {
+						jtDate.setText(backUpAssignment[tmpChanging][0]);
+						jtSubject.setText(backUpAssignment[tmpChanging][1]);
+						jtContent.setText(backUpAssignment[tmpChanging][2]);
+						// 날짜를 수정 누른 날짜로
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+						cal.setTime(sdf.parse(backUpAssignment[tmpChanging][0]));
+					} catch (Exception e) {
+					}
 					// 수정 버튼으로 변경
 					jbAdd.setIcon(new ImageIcon(this.getClass().getResource("/image/Change.png")));
 					// 커서 이동
@@ -924,7 +942,9 @@ public class AssignmentReminder implements WindowListener {
 			isWastebasket = false;
 			Wastebasket.jfWastebasket.dispose();
 		}
+		isChanging = false;
 		isMain = false;
+		jfMain.dispose();
 	}
 
 	@Override
