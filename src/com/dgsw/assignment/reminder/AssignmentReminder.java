@@ -38,7 +38,7 @@ import javax.swing.table.TableColumnModel;
 public class AssignmentReminder implements WindowListener {
 
 	// 버전 정보
-	public static final String VERSION = "V1.3";
+	public static final String VERSION = "V1.4";
 
 	// 구분 상수
 	public static final String DIVISION = "ㅸㅩㅨㅭㅬㅫㅱ";
@@ -265,6 +265,15 @@ public class AssignmentReminder implements WindowListener {
 			@Override
 			public void mouseReleased(MouseEvent mouseevent) {
 				jbRefresh.setIcon(new ImageIcon(this.getClass().getResource("/image/Refresh.png")));
+				// 오늘 버튼 색 변경
+				for (int i = 0; i < jbWeek.length; i++) {
+					calToday = Calendar.getInstance();
+					if (calToday.get(Calendar.DAY_OF_WEEK) - 1 == i) {
+						jbWeek[i].setIcon(new ImageIcon(this.getClass().getResource("/image/" + strWeek[i] + "T.png")));
+					} else {
+						jbWeek[i].setIcon(new ImageIcon(this.getClass().getResource("/image/" + strWeek[i] + ".png")));
+					}
+				}
 				// 과제 리스트 새로고침
 				jfMain.remove(scroll);
 				assignmentList();
@@ -372,6 +381,7 @@ public class AssignmentReminder implements WindowListener {
 
 		// 일주일 버튼
 		for (int i = 0; i < jbWeek.length; i++) {
+			calToday = Calendar.getInstance();
 			// 오늘 버튼만 색 변경
 			if (calToday.get(Calendar.DAY_OF_WEEK) - 1 == i) {
 				jbWeek[i] = new JButton(new ImageIcon(this.getClass().getResource("/image/" + strWeek[i] + "T.png")));
