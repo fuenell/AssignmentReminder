@@ -1,5 +1,8 @@
 과제리마인더
 ===========
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7479a1d2af2b41f58f4c24a868fffd15)](https://app.codacy.com/app/normal111/AssignmentReminder?utm_source=github.com&utm_medium=referral&utm_content=normal111/AssignmentReminder&utm_campaign=Badge_Grade_Dashboard)
+
 # 개발 목적
 학교에서 과제가 너무 많이 나와서
 Windows 내장 프로그램 StickyNotes만으로는
