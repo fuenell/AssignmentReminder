@@ -7,9 +7,9 @@
 학교에서 과제가 너무 많이 나와서 Windows 내장 프로그램 StickyNotes만으로는  
 무슨 과제가 언제까지인지 한눈에 정리하기 힘들어서 직접 만들기로 함
 ## 개발 도구
-Tool : Eclipse
-Language : Java
-UI : javax.swing
+Tool : Eclipse  
+Language : Java  
+UI : javax.swing  
 ## 개발 과정
 그냥 머릿속에서 나오는 데로 짜서
 소스가 난장판이다
